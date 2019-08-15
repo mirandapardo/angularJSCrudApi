@@ -1,0 +1,58 @@
+[
+  {
+    "id": 0,
+    "nombre": "Ricardo Miranda",
+    "edad": 28,
+    "mail": "ricardo@conectter.com",
+    "cargo": "Front End Developer"
+  },
+  {
+    "id": 1,
+    "nombre": "Guillermo Briceño",
+    "edad": 28,
+    "mail": "guillermo@conectter.com",
+    "cargo": "Back End Developer"
+  },
+  {
+    "id": 2,
+    "nombre": "Andrés Sanhueza",
+    "edad": 28,
+    "mail": "andres@conectter.com",
+    "cargo": "Front End Developer"
+  },
+  {
+    "id": 3,
+    "nombre": "Felipe Vergara",
+    "edad": 28,
+    "mail": "felipe@conectter.com",
+    "cargo": "Senior consultant"
+  },
+  {
+    "id": 4,
+    "nombre": "Javier Torres",
+    "edad": 28,
+    "mail": "javier@conectter.com",
+    "cargo": "Co-Founder"
+  },
+  {
+    "id": 5,
+    "nombre": "Cristián Torres",
+    "edad": 28,
+    "mail": "cristian@conectter.com",
+    "cargo": "Co-Founder"
+  },
+  {
+    "id": 6,
+    "nombre": "Sergio Bustamante",
+    "edad": 28,
+    "mail": "sergio@conectter.com",
+    "cargo": "Back End Developer"
+  },
+  {
+    "id": 7,
+    "nombre": "Claudio Venegas",
+    "edad": 28,
+    "mail": "claudio@conectter.com",
+    "cargo": "Dirección estratégica y comercial"
+  }
+]

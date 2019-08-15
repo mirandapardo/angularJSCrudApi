@@ -1,12 +1,139 @@
-<<!DOCTYPE html>
-<html lang="es" dir="ltr">
-  <head>
-    <meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="es" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
     <title>AngularJS CRUD para Conectter</title>
 
-  </head>
-  <body>
-    Lista de items:
-    
-  </body>
+    <!-- bootstrap -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/conectter.css">
+
+    <!-- angular -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
+
+    <!-- tarea -->
+    <script src="js/crud.js"></script>
+</head>
+<body>
+    <div ng-app="mainApp" data-ng-controller="CRUDController">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Listado de trabajadores de Conectter</h2>
+            <p>
+              <label>Filtro de trabajadores: </label> <input data-ng-model="buscador" placeholder="Filtrar" />
+            </p>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+          <div class="row">
+            <div data-ng-repeat="emp in empList | filter:buscador">
+              <div  ng-if="$index % 3 == 0" class="clearfix"></div>
+              <div class="col-md-4">
+                  <div class="well well-sm">
+                      <div class="media">
+                          <a class="pull-left" href="#">
+                            <img  class="media-object" src="https://img.icons8.com/bubbles/50/000000/user.png">
+                          </a>
+                          <div class="media-body">
+                              <h4 class="media-heading">{{ emp.nombre ? emp.nombre : 'John Doe' }}</h4>
+                              <p><span class="label label-info">{{emp.cargo ? emp.cargo : 'Vendedor de humo'}}</span></p>
+                              <p style="display: none"><span class="label label-info">{{emp.cargo ? emp.cargo : 'Vendedor de humo'}}</span>
+                              Fix para que el buscador no omita el cargo por estar en un label</p>
+                              <p>
+                                <div ng-if="emp.edad">
+                                  <span class="glyphicon glyphicon-calendar"></span> {{emp.edad}} años <br />
+                                </div>
+                                <div ng-if="emp.mail">
+                                  <span class="glyphicon glyphicon-envelope"></span> {{emp.mail}}
+                                </div>
+                              </p>
+                              <p>
+                                  <button ng-click="abrirModal('editar', emp.id)" class="btn btn-info btn-xs active"><span class="glyphicon glyphicon-edit"></span> Editar</button>
+                                  <button ng-click="abrirModal('delete', emp.id)"class="btn btn-secondary btn-xs active"><span class="glyphicon glyphicon-ban-circle"></span> Despedir</button>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <a href="" class="btn btn-info btn-rounded mb-4" ng-click="abrirModal('agregar')" data-toggle="modal" data-target="#modalRegisterForm">
+              Agregar un trabajador</a>
+          </div>
+        </div>
+
+        <!-- Modal agregar trabajador -->
+        <div id="myModal" class="modal modal-fade" ng-show="modalAgregar" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="modalAgregar = false">&times;</button>
+                <h3 ng-if="edit" class="modal-title">Editar un trabajador</h3>
+                  <h3 ng-if="!edit" class="modal-title">Agregar un trabajador a Conectter</h3>
+              </div>
+              <form class="needs-validation" novalidate>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="agregarNombre1">Nombre</label>
+                    <input type="text" required id="agregarNombre1" data-ng-model="empleado.nombre" class="form-control" placeholder="Ingrese nombre">
+                  </div>
+                  <div class="form-group">
+                    <label for="cargo1">Cargo</label>
+                    <input type="text" required class="form-control" data-ng-model="empleado.cargo" id="cargo1" placeholder="Ingrese cargo">
+                  </div>
+                  <div class="form-group">
+                    <label for="edad1">Edad</label>
+                    <input type="number" class="form-control" data-ng-model="empleado.edad" id="edad1" placeholder="Ingrese edad">
+                  </div>
+                  <div class="form-group">
+                    <label for="correo1">Correo</label>
+                    <input type="text" class="form-control" data-ng-model="empleado.mail" id="correo" placeholder="Ingrese correo">
+                    <!-- <input type="email" class="form-control" data-ng-model="empleado.mail" id="correo" placeholder="Ingrese correo">
+                    Se usa input text para evitar la validación del navegador -->
+                  </div>
+                </div>
+              <div class="modal-footer">
+                <button ng-if="edit" type="submit" class="btn btn-info" ng-click="editarTrabajador()">Aceptar</button>
+                <button ng-if="!edit" type="submit" class="btn btn-info" ng-click="agregarTrabajador()">Agregar</button>
+                <button type="button" class="btn btn-default" ng-click="modalAgregar = false">Cancelar</button>
+              </div>
+            </form>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Modal borrar trabajador -->
+        <div id="myModal" class="modal modal-fade" ng-show="modalDelete" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="modalDelete = false">&times;</button>
+                  <h3 class="modal-title">Eliminar un trabajador</h3>
+              </div>
+              <div class="modal-body">
+                <p>
+                  Esta acción eliminará a {{empleado.nombre ? empleado.nombre : 'John Doe'}} de la base de datos
+                </p>
+                <p>
+                  Está seguro que desea borrar a {{empleado.nombre ? empleado.nombre : 'John Doe'}}?
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="eliminarTrabajador(); modalDelete = false">Eliminar</button>
+                <button type="button" class="btn btn-default" ng-click="modalDelete = false"; modalDelete = false">Cancelar</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+</body>
 </html>
